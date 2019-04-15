@@ -1,6 +1,6 @@
 <?php
 
-    class Remedios {
+    class Remedio {
 
         private $id;
         private $nome;
@@ -9,7 +9,7 @@
         private $quantidade;
         private $preco;
 
-        public function __constructor($nome, $fabricante, $controlado, $quantidade, $preco) {
+        public function __construct($nome, $fabricante, $controlado, $quantidade, $preco) {
             $this->nome = $nome;
             $this->fabricante = $fabricante;
             $this->controlado = $controlado;
@@ -60,6 +60,26 @@
         public function setPreco($preco) {
             $this->preco = $preco;
         }
+
+        public function __toString() {
+            if ($this->id) {
+                $string = 'Id : '.$this->id.
+                    '<br>Nome: '.$this->nome.
+                    '<br>Fabricante: '.$this->fabricante.
+                    '<br>Quantidade: '.$this->quantidade.
+                    '<br>Preco: '.$this->preco;
+            } else {
+                $string = 'Nome: '.$this->nome.
+                    '<br>Fabricante: '.$this->fabricante.
+                    '<br>Quantidade: '.$this->quantidade.
+                    '<br>Preco: '.$this->preco;
+
+            }
+
+            return $string;
+        }
+
+
     }
 
 ?>

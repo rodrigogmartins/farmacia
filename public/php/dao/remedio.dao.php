@@ -1,12 +1,12 @@
 <?php
 
-    include_once('class/conexao.class.php');
-    include_once('class/remedios.class.php');
-    include_once('interface/dao.interface.php');
+    include_once('../class/conexao.class.php');
+    include_once('../class/remedio.class.php');
+    include_once('../interface/dao.interface.php');
 
-    class RemediosDAO implements DAO {
+    class RemedioDAO implements DAO {
 
-        public function inserir(Remedios $remedio) {
+        public function inserir($remedio) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
 
@@ -174,7 +174,7 @@
             mysqli_close($conexao);
         }
 
-        public function deletar(int $id) {
+        public function deletar($id) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
             $SQL = 'DELETE FROM remedio WHERE id = '.$id;
