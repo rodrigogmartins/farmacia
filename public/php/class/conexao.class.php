@@ -1,22 +1,18 @@
 <?php
 
     class Conexao {
-        private $STR_CONEXAO;
-        private $HOST = 'localhost';
-        private $PORT = '5432';
-        private $DBNAME = 'farmacia';
+
+        private $URL = 'url';
         private $USER = 'postgres';
         private $PASSWORD = 'postgres';
 
         public function conectaBD() {
-            $STR_CONEXAO = "host={$this->HOST} port={$this->PORT}
-                dbname={$this->DBNAME} user={$this->USER} password={$this->PASSWORD}";
-            $conexao = mysqli_connect($STR_CONEXAO);
+            $conexao = mysqli_connect($URL, $user, $PASSWORD);
 
             if(!$conexao) {
                 throw new Exception("Erro ao tentar conectar com banco de dados", 1);
             }
-            
+
             return $conexao;
         }
     }

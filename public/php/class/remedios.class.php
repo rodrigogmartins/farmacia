@@ -9,7 +9,7 @@
         private $quantidade;
         private $preco;
 
-        public function __constructor(String $nome, String $fabricante, Boolean $controlado, int $quantidade, Float $preco) {
+        public function __constructor($nome, $fabricante, $controlado, $quantidade, $preco) {
             $this->nome = $nome;
             $this->fabricante = $fabricante;
             $this->controlado = $controlado;
@@ -41,23 +41,23 @@
             return $this->preco;
         }
 
-        public function setId(int $id) {
+        public function setId($id) {
             $this->id = $id;
         }
 
-        public function setNome(String $nome) {
+        public function setNome($nome) {
             $this->nome = $nome;
         }
 
-        public function setFabricante(String $fabricante) {
+        public function setFabricante($fabricante) {
             $this->fabricante = $fabricante;
         }
 
-        public function setQuantidade(int $quantidade) {
+        public function setQuantidade($quantidade) {
             $this->quantidade = $quantidade;
         }
 
-        public function setPreco(Float $preco) {
+        public function setPreco($preco) {
             $this->preco = $preco;
         }
     }

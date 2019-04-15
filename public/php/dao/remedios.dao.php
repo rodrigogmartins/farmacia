@@ -6,50 +6,49 @@
 
     class RemediosDAO implements DAO {
 
-        public function inserir($remedio) {
+        public function inserir(Remedios $remedio) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
 
-            $SQL = $conexao->prepare('INSERT INTO remedio (nome, fabricante, controlado, quantidade, preco)
-                VALUES (?, ?, ?, ?, ?)');
-            $SQL->bind_param('ssiid', $remedio->getNome(), $remedio->getFabricante(), $remedio->getControlado(),
-                $remedio->getQuantidade(), $remedo->getPreco());
-            $SQL->execute();
-            $SQL->close();
-            $conexao->close();     
+            $VALORES = array($remedio->getNome(), $remedio->getFabricante(), $remedio->getControlado(), $remedio->getQuantidade(), $remedio->getPreco());
+            $SQL = 'INSERT INTO remedio (nome, fabricante, controlado, quantidade, preco) VALUES '.$VALORES[0].','.$VALORES[1].','.$VALORES[2].','.$VALORES[3].','.$VALORES[4];
+
+            mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
         }
 
-        public function listar(int $limit, int $offset) {
+        public function listar($limit, $offset) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
-            $SQL = 'SELECT * FROM remedio ORDER BY  DESC LIMIT $1 OFFSET $2';
+
             $VALORES = array($limit, $offset);
-            $resultados = pg_query_params($conexao, $SQL, $VALORES);
-            pg_close($conexao);
+            $SQL = 'SELECT * FROM remedio ORDER BY  DESC LIMIT '.$limit.' OFFSET '.$offset;
+            $resultados  = mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
 
             $remedios = array();
-            while($resultado = pg_fetch_assoc($resultados)) {
-                $remedio = new Remedio($resultado['nome'], $resultado['fabricante'],
-                    $resultado['controlado'], $resultado['quantidade'], $resultado['preco']);
-                $remedio->setId($resultado['id']);
+            while($linha = mysqli_fetch_array($resultados)) {
+                $remedio = new Remedio($linha['nome'], $linha['fabricante'],
+                    $linha['controlado'], $linha['quantidade'], $linha['preco']);
+                $remedio->setId($linha['id']);
                 array_push($remedios, $remedio);
             }
 
             return $remedios;
         }
 
-        public function buscar(int $id) {
+        public function buscar($id) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
-            $SQL = 'SELECT * FROM remedios WHERE id = $1';
-            $VALORES = array($id);
-            $resultado = pg_query_params($conexao, $SQL, $VALORES);
-            pg_close($conexao);
 
-            $resultado = pg_fetch_array($resultado);
-            $remedio = new Remedio($resultado['nome'], $resultado['fabricante'],
-                $resultado['controlado'], $resultado['quantidade'], $resultado['preco']);
-            $remedio->setId($resultado['id']);
+            $SQL = 'SELECT * FROM remedios WHERE id = '.$id;
+            $resultado = mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
+
+            $linha = mysqli_fetch_array($resultados);
+            $remedio = new Remedio($linha['nome'], $linha['fabricante'],
+                $linha['controlado'], $linha['quantidade'], $linha['preco']);
+            $remedio->setId($linha['id']);
 
             return $remedio;
         }
@@ -57,22 +56,21 @@
         public function alterar($post) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
-            $SQL = 'UPDATE remedio SET nome = $1, fabricante = $2,
-                controlado = $3, quantidade = $4, preco = $5 WHERE id = $5';
-            $VALORES = array();
-            $resultado = pg_query_params($conexao, $SQL, $VALORES);
-            $VALORES = array($remedio->getNome(), $remedio->getFabricante(),
-                $remedio->getControlado(), $remedio->getQuantidade(), $remedo->getPreco());
-            pg_close($conexao);
+
+            $VALORES = array($remedio->getNome(), $remedio->getFabricante(), $remedio->getControlado(), $remedio->getQuantidade(), $remedio->getPreco(), $remedio->getId());
+
+            $SQL = 'UPDATE remedio SET nome = '.$VALORES[0].', fabricante = '.$VALORES[1].', controlado = '.$VALORES[2].', quantidade = '.$VALORES[3].',     preco = '.$VALORES[4].' WHERE id = '.$VALORES[5];
+
+            mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
         }
 
         public function deletar(int $id) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
-            $SQL = 'DELETE FROM remedio WHERE id = $1';
-            $VALORES = array($id);
-            $resultado = pg_query_params($conexao, $SQL, $VALORES);
-            pg_close($conexao);
+            $SQL = 'DELETE FROM remedio WHERE id = '.$id;
+            mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
         }
     }
 ?>
