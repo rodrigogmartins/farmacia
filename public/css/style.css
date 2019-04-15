@@ -1,0 +1,17 @@
+body {
+    background-color: rgb(36, 35, 35);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+    height: 100vh;
+}
+
+a {
+    margin: 10px;
+}
+
+#botao {
+    color: white;
+    font-weight: bolder;
+    letter-spacing: 1px;
+}

@@ -22,7 +22,87 @@
             $conexao = $conexao->conectaBD();
 
             $VALORES = array($limit, $offset);
-            $SQL = 'SELECT * FROM remedio ORDER BY  DESC LIMIT '.$limit.' OFFSET '.$offset;
+            $SQL = 'SELECT * FROM remedio LIMIT '.$limit.' OFFSET '.$offset;
+            $resultados  = mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
+
+            $remedios = array();
+            while($linha = mysqli_fetch_array($resultados)) {
+                $remedio = new Remedio($linha['nome'], $linha['fabricante'],
+                    $linha['controlado'], $linha['quantidade'], $linha['preco']);
+                $remedio->setId($linha['id']);
+                array_push($remedios, $remedio);
+            }
+
+            return $remedios;
+        }
+
+        public function buscarRemediosControlados($limit, $offset) {
+            $conexao = new Conexao();
+            $conexao = $conexao->conectaBD();
+
+            $VALORES = array($limit, $offset);
+            $SQL = 'SELECT * FROM remedio WHERE controlado = true LIMIT '.$limit.' OFFSET '.$offset;
+            $resultados  = mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
+
+            $remedios = array();
+            while($linha = mysqli_fetch_array($resultados)) {
+                $remedio = new Remedio($linha['nome'], $linha['fabricante'],
+                    $linha['controlado'], $linha['quantidade'], $linha['preco']);
+                $remedio->setId($linha['id']);
+                array_push($remedios, $remedio);
+            }
+
+            return $remedios;
+        }
+
+        public function buscarRemediosBaixoEstoque($limit, $offset) {
+            $conexao = new Conexao();
+            $conexao = $conexao->conectaBD();
+
+            $VALORES = array($limit, $offset);
+            $SQL = 'SELECT * FROM remedio WHERE quantidade < 5 LIMIT '.$limit.' OFFSET '.$offset;
+            $resultados  = mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
+
+            $remedios = array();
+            while($linha = mysqli_fetch_array($resultados)) {
+                $remedio = new Remedio($linha['nome'], $linha['fabricante'],
+                    $linha['controlado'], $linha['quantidade'], $linha['preco']);
+                $remedio->setId($linha['id']);
+                array_push($remedios, $remedio);
+            }
+
+            return $remedios;
+        }
+
+        public function buscarOrdenadoPorPreco($limit, $offset, $ordem) {
+            $conexao = new Conexao();
+            $conexao = $conexao->conectaBD();
+
+            $VALORES = array($limit, $offset);
+            $SQL = 'SELECT * FROM remedio ORDER BY preco '.$ordem.' LIMIT '.$limit.' OFFSET '.$offset;
+            $resultados  = mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
+
+            $remedios = array();
+            while($linha = mysqli_fetch_array($resultados)) {
+                $remedio = new Remedio($linha['nome'], $linha['fabricante'],
+                    $linha['controlado'], $linha['quantidade'], $linha['preco']);
+                $remedio->setId($linha['id']);
+                array_push($remedios, $remedio);
+            }
+
+            return $remedios;
+        }
+
+        public function buscarOrdenadoPorQuantidade($limit, $offset, $ordem) {
+            $conexao = new Conexao();
+            $conexao = $conexao->conectaBD();
+
+            $VALORES = array($limit, $offset);
+            $SQL = 'SELECT * FROM remedio ORDER BY quantidade '.$ordem.' LIMIT '.$limit.' OFFSET '.$offset;
             $resultados  = mysqli_query($SQL, $conexao);
             mysqli_close($conexao);
 
@@ -53,6 +133,35 @@
             return $remedio;
         }
 
+        public function buscarPorNome($nome) {
+            $conexao = new Conexao();
+            $conexao = $conexao->conectaBD();
+
+            $SQL = 'SELECT * FROM remedios WHERE nome like %'.$nome.'%';
+            $resultado = mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
+
+            $linha = mysqli_fetch_array($resultados);
+            $remedio = new Remedio($linha['nome'], $linha['fabricante'],
+                $linha['controlado'], $linha['quantidade'], $linha['preco']);
+            $remedio->setId($linha['id']);
+
+            return $remedio;
+        }
+
+        public function quantidadeDeRemediosPorFabricante($fabricante) {
+            $conexao = new Conexao();
+            $conexao = $conexao->conectaBD();
+
+            $SQL = 'SELECT count(*) as quantidade FROM remedios WHERE fabricante like %'.$fabricante.'% GROUP BY '. $fabricante;
+            $resultado = mysqli_query($SQL, $conexao);
+            mysqli_close($conexao);
+
+            $linha = mysqli_fetch_array($resultados);
+
+            return $linha['quantidade'];
+        }
+
         public function alterar($post) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
@@ -73,4 +182,5 @@
             mysqli_close($conexao);
         }
     }
+
 ?>
