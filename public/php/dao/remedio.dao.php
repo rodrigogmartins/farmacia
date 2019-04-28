@@ -17,10 +17,11 @@
             mysqli_close($conexao);
         }
 
-        public function listar() {
+        public function listar($limit, $offset) {
             $conexao = new Conexao();
             $conexao = $conexao->conectaBD();
 
+            $VALORES = array($limit, $offset);
             $SQL = "SELECT * FROM remedio";
             $resultados  = mysqli_query($conexao, $SQL);
             mysqli_close($conexao);
