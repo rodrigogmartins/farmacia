@@ -72,12 +72,33 @@
         }
 
         public function __toString() {
+<<<<<<< HEAD:public/php/class/remedio.class.php
             return 'Nome: '.$this->nome.'<br>
                     Fabricante: '.$this->fabricante.'<br>
                     Controlado: '.$this->controlado.'<br>
                     Quantidade: '.(string) $this->quantidade.'<br>
                     Preço: '.(string) $this->preco;
         }
+=======
+            if ($this->id) {
+                $string = 'Id : '.$this->id.
+                    '<br>Nome: '.$this->nome.
+                    '<br>Fabricante: '.$this->fabricante.
+                    '<br>Quantidade: '.$this->quantidade.
+                    '<br>Preco: '.$this->preco;
+            } else {
+                $string = 'Nome: '.$this->nome.
+                    '<br>Fabricante: '.$this->fabricante.
+                    '<br>Quantidade: '.$this->quantidade.
+                    '<br>Preco: '.$this->preco;
+
+            }
+
+            return $string;
+        }
+
+
+>>>>>>> 96b5f4d42d0a6c8a99251350ac755b0ba7498cd2:public/php/class/remedio.class.php
     }
 
 ?>
