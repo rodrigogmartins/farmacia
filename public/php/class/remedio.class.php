@@ -1,6 +1,6 @@
 <?php
 
-    class Remedios {
+    class Remedio {
 
         private $id;
         private $nome;
@@ -9,10 +9,13 @@
         private $quantidade;
         private $preco;
 
-        public function __constructor($nome, $fabricante, $controlado, $quantidade, $preco) {
+        public function __construct($nome, $fabricante, $controlado, $quantidade, $preco) {
             $this->nome = $nome;
             $this->fabricante = $fabricante;
             $this->controlado = $controlado;
+            if ($controlado != 'Sim') {
+                $this->controlado = 'Não';
+            }
             $this->quantidade = $quantidade;
             $this->preco = $preco;
         }
@@ -34,11 +37,11 @@
         }
 
         public function getQuantidade() {
-            return $this->quantidade;
+            return (int) $this->quantidade;
         }
 
         public function getPreco() {
-            return $this->preco;
+            return (double) $this->preco;
         }
 
         public function setId($id) {
@@ -53,12 +56,27 @@
             $this->fabricante = $fabricante;
         }
 
+        public function setControlado($controlado) {
+            $this->controlado = $controlado;
+            if ($controlado != 'Sim') {
+                $this->controlado = 'Não';
+            }
+        }
+
         public function setQuantidade($quantidade) {
             $this->quantidade = $quantidade;
         }
 
         public function setPreco($preco) {
             $this->preco = $preco;
+        }
+
+        public function __toString() {
+            return 'Nome: '.$this->nome.'<br>
+                    Fabricante: '.$this->fabricante.'<br>
+                    Controlado: '.$this->controlado.'<br>
+                    Quantidade: '.(string) $this->quantidade.'<br>
+                    Preço: '.(string) $this->preco;
         }
     }
 
