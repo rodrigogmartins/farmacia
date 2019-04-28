@@ -208,16 +208,7 @@
                 $quantidade = 'Possuimos '.$quantidade.' remédios da marca '.$fabricante;
             }
 
-<<<<<<< HEAD:public/php/dao/remedio.dao.php
             return $quantidade;
-=======
-        public function deletar($id) {
-            $conexao = new Conexao();
-            $conexao = $conexao->conectaBD();
-            $SQL = 'DELETE FROM remedio WHERE id = '.$id;
-            mysqli_query($SQL, $conexao);
-            mysqli_close($conexao);
->>>>>>> 96b5f4d42d0a6c8a99251350ac755b0ba7498cd2:public/php/dao/remedio.dao.php
         }
     }
 
